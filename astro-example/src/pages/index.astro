@@ -1,0 +1,167 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+  <button class="btn" id="github-btn" data-authorized="false">
+    Connect Github
+  </button>
+
+  <div id="github-repos-section" style="display: none; margin-top: 2rem;">
+    <button class="btn" id="list-repos-btn">List All Repos</button>
+    <div
+      id="repos-output"
+      style="margin-top: 1rem; padding: 1rem; background: #f5f5f5; border-radius: 0.5rem; max-height: 400px; overflow-y: auto;"
+    >
+    </div>
+  </div>
+</Layout>
+
+<script>
+  import { client } from "../lib/integrate";
+
+  async function updateButtonState(btn: HTMLButtonElement, provider: string) {
+    try {
+      const authorized = await client.isAuthorized(provider);
+      btn.dataset.authorized = authorized.toString();
+      btn.textContent = authorized
+        ? `Disconnect ${provider.charAt(0).toUpperCase() + provider.slice(1)}`
+        : `Connect ${provider.charAt(0).toUpperCase() + provider.slice(1)}`;
+
+      // Show/hide GitHub repos section based on authorization
+      if (provider === "github") {
+        const reposSection = document.getElementById("github-repos-section");
+        if (reposSection) {
+          reposSection.style.display = authorized ? "block" : "none";
+        }
+      }
+    } catch (error) {
+      console.error(`Error checking ${provider} authorization:`, error);
+    }
+  }
+
+  async function setupButtons() {
+    const githubBtn = document.getElementById("github-btn");
+
+    if (!githubBtn) {
+      console.error("githubBtn not found!");
+      return;
+    }
+
+    // Setup event listeners for automatic state updates
+    const handleAuthComplete = () => {
+      updateButtonState(githubBtn as HTMLButtonElement, "github");
+    };
+
+    const handleAuthError = ({ error }: { provider: string; error: Error }) => {
+      console.error("Auth error:", error);
+    };
+
+    const handleAuthDisconnect = () => {
+      updateButtonState(githubBtn as HTMLButtonElement, "github");
+    };
+
+    client.on("auth:complete", handleAuthComplete);
+    client.on("auth:error", handleAuthError);
+    client.on("auth:disconnect", handleAuthDisconnect);
+
+    // Update button states based on authorization
+    await updateButtonState(githubBtn as HTMLButtonElement, "github");
+
+    // Setup list repos button
+    const listReposBtn = document.getElementById(
+      "list-repos-btn"
+    ) as HTMLButtonElement;
+    const reposOutput = document.getElementById("repos-output");
+
+    if (listReposBtn && reposOutput) {
+      listReposBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        listReposBtn.disabled = true;
+        listReposBtn.textContent = "Loading...";
+        reposOutput.textContent = "Loading repos...";
+
+        try {
+          const response = await client.github.listOwnRepos();
+
+          // Extract repos from MCPToolCallResponse
+          let repos: any[] = [];
+
+          if (
+            response.structuredContent &&
+            Array.isArray(response.structuredContent)
+          ) {
+            repos = response.structuredContent as any[];
+          } else if (response.content && response.content.length > 0) {
+            // Try to parse JSON from text content
+            const textContent = response.content[0]?.text;
+            if (textContent) {
+              try {
+                const parsed = JSON.parse(textContent);
+                repos = Array.isArray(parsed)
+                  ? parsed
+                  : parsed.repos || parsed.repositories || [];
+              } catch {
+                repos = [];
+              }
+            }
+          }
+
+          if (repos.length > 0) {
+            reposOutput.innerHTML = `
+              <h3 style="margin-top: 0;">Repositories (${repos.length}):</h3>
+              <ul style="list-style: none; padding: 0;">
+                ${repos
+                  .map(
+                    (repo: any) => `
+                  <li style="padding: 0.5rem; margin-bottom: 0.5rem; background: white; border-radius: 0.25rem;">
+                    <strong>${repo.name || repo.full_name || "Unknown"}</strong>
+                    ${repo.description ? `<br><small>${repo.description}</small>` : ""}
+                    ${repo.html_url ? `<br><a href="${repo.html_url}" target="_blank" style="color: #0066cc;">View on GitHub</a>` : ""}
+                  </li>
+                `
+                  )
+                  .join("")}
+              </ul>
+            `;
+          } else {
+            reposOutput.innerHTML = `
+              <p>No repositories found or unexpected response format.</p>
+              <pre style="background: white; padding: 0.5rem; border-radius: 0.25rem; overflow-x: auto; font-size: 0.8rem;">${JSON.stringify(response, null, 2)}</pre>
+            `;
+          }
+        } catch (error) {
+          console.error("Error listing repos:", error);
+          reposOutput.textContent = `Error: ${error instanceof Error ? error.message : String(error)}`;
+        } finally {
+          listReposBtn.disabled = false;
+          listReposBtn.textContent = "List All Repos";
+        }
+      });
+    }
+
+    githubBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      try {
+        const authorized = githubBtn.dataset.authorized === "true";
+        if (authorized) {
+          await client.disconnectProvider("github");
+        } else {
+          await client.authorize("github");
+        }
+        // Event listeners will automatically update button state
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupButtons);
+  } else {
+    setupButtons();
+  }
+</script>
