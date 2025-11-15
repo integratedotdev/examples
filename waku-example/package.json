@@ -9,7 +9,7 @@
     "start": "waku start"
   },
   "dependencies": {
-    "integrate-sdk": "^0.7.11",
+    "integrate-sdk": "^0.7.16",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-server-dom-webpack": "19.2.0",

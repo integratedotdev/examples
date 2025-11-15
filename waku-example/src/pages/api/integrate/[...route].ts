@@ -1,4 +1,4 @@
-import { handler } from '../../../lib/integrate-server';
+import { serverClient } from '@/lib/integrate-server';
 
-export const GET = handler;
-export const POST = handler;
+export const GET = serverClient.handler;
+export const POST = serverClient.handler;

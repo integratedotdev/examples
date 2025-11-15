@@ -8,7 +8,7 @@
         "@solidjs/router": "^0.15.0",
         "@solidjs/start": "^1.1.0",
         "@types/node": "^24.10.1",
-        "integrate-sdk": "^0.7.10",
+        "integrate-sdk": "^0.7.16",
         "solid-js": "^1.9.5",
         "vinxi": "^0.5.7",
       },
@@ -611,7 +611,7 @@
 
     "inherits": ["inherits@2.0.4", "", {}, "sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ=="],
 
-    "integrate-sdk": ["integrate-sdk@0.7.10", "", { "dependencies": { "zod": "^3.23.8" }, "peerDependencies": { "@anthropic-ai/sdk": ">=0.20.0", "@cloudflare/workers-types": ">=4.0.0", "@google/generative-ai": ">=0.1.0", "@langchain/core": ">=0.1.0", "@mastra/core": ">=0.1.0", "@openai/agents": ">=0.1.0", "ai": ">=4.0.0", "llamaindex": ">=0.1.0", "openai": ">=4.0.0", "react": ">=19.0.0", "typescript": ">=5.0.0" }, "optionalPeers": ["@anthropic-ai/sdk", "@cloudflare/workers-types", "@google/generative-ai", "@langchain/core", "@mastra/core", "@openai/agents", "ai", "llamaindex", "openai", "react"] }, "sha512-oZnifY+KRgS6bbTB3LH6c8sAuCXGOyKpEsb1dzHK0C+O+rYlTcnPPLSZjWGtgAVCm91GZzKNeOoF+OYVC6/LTg=="],
+    "integrate-sdk": ["integrate-sdk@0.7.16", "", { "dependencies": { "zod": "^3.23.8" }, "peerDependencies": { "@anthropic-ai/sdk": ">=0.20.0", "@cloudflare/workers-types": ">=4.0.0", "@google/generative-ai": ">=0.1.0", "@langchain/core": ">=0.1.0", "@mastra/core": ">=0.1.0", "@openai/agents": ">=0.1.0", "ai": ">=4.0.0", "llamaindex": ">=0.1.0", "openai": ">=4.0.0", "react": ">=19.0.0", "typescript": ">=5.0.0" }, "optionalPeers": ["@anthropic-ai/sdk", "@cloudflare/workers-types", "@google/generative-ai", "@langchain/core", "@mastra/core", "@openai/agents", "ai", "llamaindex", "openai", "react"] }, "sha512-exJE/I07b9Xn6bYh9NQWSX04202WEV3N8bzjP+yOH8Nonjs9eu8sdR9IB1go90EhzvPFg++0jW8yjG6gA7XtjQ=="],
 
     "ioredis": ["ioredis@5.8.2", "", { "dependencies": { "@ioredis/commands": "1.4.0", "cluster-key-slot": "^1.1.0", "debug": "^4.3.4", "denque": "^2.1.0", "lodash.defaults": "^4.2.0", "lodash.isarguments": "^3.1.0", "redis-errors": "^1.2.0", "redis-parser": "^3.0.0", "standard-as-callback": "^2.1.0" } }, "sha512-C6uC+kleiIMmjViJINWk80sOQw5lEzse1ZmvD+S/s8p8CWapftSaC+kocGTx6xrbrJ4WmYQGC08ffHLr6ToR6Q=="],
 

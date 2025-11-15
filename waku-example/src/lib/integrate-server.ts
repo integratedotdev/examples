@@ -1,7 +1,7 @@
 import { createMCPServer, githubPlugin } from 'integrate-sdk/server';
 import { getEnv } from 'waku';
 
-export const { client: serverClient, handler } = createMCPServer({
+export const { client: serverClient } = createMCPServer({
     apiKey: getEnv('INTEGRATE_API_KEY')!,
     plugins: [
         githubPlugin({
