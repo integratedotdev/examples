@@ -21,6 +21,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"integrate-sdk": "^0.7.18"
+		"integrate-sdk": "^0.7.20"
 	}
 }

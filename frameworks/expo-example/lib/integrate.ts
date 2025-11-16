@@ -1,8 +1,8 @@
-import { createMCPClient, githubPlugin } from 'integrate-sdk';
+import { createMCPClient, githubIntegration } from 'integrate-sdk';
 
 export const client = createMCPClient({
-    plugins: [
-        githubPlugin({
+    integrations: [
+        githubIntegration({
             scopes: ['repo', 'user'],
         }),
     ],
