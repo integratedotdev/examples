@@ -1,5 +1,5 @@
 import { toSolidStartHandler } from "integrate-sdk/server";
-import { serverClient } from "~/lib/integrate-server";
+import { serverClient } from "~/lib/integrate";
 
 const handlers = toSolidStartHandler(serverClient)
 

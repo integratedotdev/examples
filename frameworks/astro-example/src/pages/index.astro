@@ -18,7 +18,7 @@ import Layout from "../layouts/Layout.astro";
 </Layout>
 
 <script>
-  import { client } from "../lib/integrate";
+  import { client } from "integrate-sdk";
 
   async function updateButtonState(btn: HTMLButtonElement, provider: string) {
     try {

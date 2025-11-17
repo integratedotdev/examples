@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { client } from "@/lib/integrate";
+import { client } from "integrate-sdk";
 
 interface Repo {
   name?: string;

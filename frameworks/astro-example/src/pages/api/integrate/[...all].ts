@@ -1,4 +1,4 @@
-import { serverClient } from '@/lib/integrate-server';
+import { serverClient } from '@/lib/integrate';
 import type { APIRoute } from 'astro';
 
 export const ALL: APIRoute = async (ctx) => {

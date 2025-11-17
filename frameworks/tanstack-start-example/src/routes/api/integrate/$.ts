@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { serverClient } from '@/lib/integrate-server';
+import { serverClient } from '@/lib/integrate';
 
 export const Route = createFileRoute('/api/integrate/$')({
     server: {

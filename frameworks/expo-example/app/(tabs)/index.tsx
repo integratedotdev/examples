@@ -7,7 +7,7 @@ import * as WebBrowser from 'expo-web-browser';
 import { HelloWave } from '@/components/hello-wave';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { client } from '@/lib/integrate';
+import { client } from 'integrate-sdk';
 
 // Required for expo-web-browser
 WebBrowser.maybeCompleteAuthSession();

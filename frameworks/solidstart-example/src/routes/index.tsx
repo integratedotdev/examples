@@ -1,5 +1,5 @@
 import { createSignal, onMount, onCleanup } from "solid-js";
-import { client } from "~/lib/integrate";
+import { client } from "integrate-sdk";
 
 export default function Home() {
   const [githubAuthorized, setGithubAuthorized] = createSignal(false);

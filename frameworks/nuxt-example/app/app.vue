@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { client } from './lib/integrate'
+import { client } from 'integrate-sdk'
 
 interface Repo {
   name?: string

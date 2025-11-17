@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
-import { client } from '../lib/integrate'
+import { client } from 'integrate-sdk'
 
 export const Route = createFileRoute('/')({ component: App })
 

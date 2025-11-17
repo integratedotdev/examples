@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
-  import { client } from '$lib/integrate';
+  import { client } from 'integrate-sdk';
 
   let githubAuthorized = $state(false);
   let repos = $state<any[]>([]);
