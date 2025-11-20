@@ -1,5 +1,5 @@
 {
-  "name": "openai-example",
+  "name": "google-genai-example",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,9 +9,9 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "integrate-sdk": "^0.7.40",
+    "@google/genai": "^1.29.1",
+    "integrate-sdk": "^0.7.50",
     "next": "16.0.3",
-    "openai": "^6.9.0",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "streamdown": "^1.5.0"

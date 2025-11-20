@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Using Integrate with OpenAI SDK Example",
+  title: "Using Integrate with Anthropic SDK Example",
 };
 
 export default function RootLayout({
