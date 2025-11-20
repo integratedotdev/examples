@@ -66,10 +66,8 @@ export default function ChatPage() {
 
   function formatFunctionOutput(output: unknown): string {
     try {
-      // Parse if it's a string
       const data = typeof output === "string" ? JSON.parse(output) : output;
 
-      // Check for structured content with repositories
       if (data.structuredContent?.repositories) {
         let displayText = "\n\n📦 **GitHub Repositories:**\n\n";
         for (const repo of data.structuredContent.repositories) {
@@ -83,12 +81,10 @@ export default function ChatPage() {
         return displayText;
       }
 
-      // Check for content array
       if (data.content && Array.isArray(data.content)) {
         let text = "";
         for (const item of data.content) {
           if (item.type === "text" && item.text) {
-            // Try to parse the text as JSON if it looks like JSON
             try {
               const parsed = JSON.parse(item.text);
               if (parsed.repositories) {
@@ -113,7 +109,6 @@ export default function ChatPage() {
         return text;
       }
 
-      // Fallback to stringifying the data
       return JSON.stringify(data, null, 2);
     } catch (e) {
       console.error("Error formatting function output:", e);
@@ -131,7 +126,6 @@ export default function ChatPage() {
     setLoading(true);
 
     try {
-      // Convert messages to Google Genai format
       const googleMessages = [...messages, userMessage].map((msg) => ({
         role: msg.role === "assistant" ? "model" : "user",
         parts: [{ text: msg.content }],
@@ -151,18 +145,13 @@ export default function ChatPage() {
 
       const result = await response.json();
 
-      // Build the assistant's response
       let assistantContent = "";
 
-      // Handle Google Genai response format
       if (result.structuredContent) {
-        // Function call result with structuredContent (not an array)
         assistantContent = formatFunctionOutput(result);
       } else if (result.text) {
-        // Simple text response
         assistantContent = result.text;
       } else if (result.candidates && result.candidates[0]?.content) {
-        // Structured response with candidates
         const content = result.candidates[0].content;
         if (content.parts) {
           for (const part of content.parts) {
@@ -172,9 +161,7 @@ export default function ChatPage() {
           }
         }
       } else if (Array.isArray(result)) {
-        // Handle function call results (array format)
         for (const item of result) {
-          // If item is a string, try to parse it as JSON first
           if (typeof item === "string") {
             try {
               const parsed = JSON.parse(item);
@@ -184,17 +171,14 @@ export default function ChatPage() {
                 assistantContent += item;
               }
             } catch {
-              // Not JSON, just use as plain text
               assistantContent += item;
             }
           }
-          // Check if item has structuredContent directly (Google format)
           else if (item.structuredContent) {
             assistantContent += formatFunctionOutput(item);
           } else if (item.type === "function_call_output") {
             assistantContent += formatFunctionOutput(item.output);
           } else if (item.content && Array.isArray(item.content)) {
-            // Handle content array format
             for (const contentItem of item.content) {
               if (contentItem.text) {
                 assistantContent += formatFunctionOutput(contentItem.text);
@@ -204,7 +188,6 @@ export default function ChatPage() {
         }
       }
 
-      // If no content was found, show the raw result
       if (!assistantContent.trim()) {
         assistantContent = "Response received but no displayable content found.";
       }

@@ -8,7 +8,7 @@ export async function POST(req: Request) {
     const { messages } = await req.json();
 
     const response = await openai.responses.create({
-        model: "gpt-4o-2024-11-20",
+        model: "gpt-5-nano",
         input: messages,
         tools: await getOpenAITools(serverClient),
     });

@@ -78,7 +78,6 @@ export default function ChatPage() {
 
       const data = await response.json();
 
-      // The backend might return a single message or an array of messages (if tool calls happened)
       const newMessages = Array.isArray(data) ? data : [data];
 
       setMessages((prev) => [
@@ -113,19 +112,15 @@ export default function ChatPage() {
               }
               return <div key={index} className="whitespace-pre-wrap">{block.text}</div>;
             }
-            // Filter out intermediate tool usage blocks to keep UI clean
             if (block.type === "tool_use") {
               return null;
             }
-            // Render tool results as normal messages
             if (block.type === "tool_result") {
               let displayContent = block.content;
 
-              // Attempt to parse JSON content to see if it has a nested "content" array or text field
               if (typeof block.content === 'string') {
                 try {
                   const parsed = JSON.parse(block.content);
-                  // Check if it matches the structure in the user's example
                   if (parsed.content && Array.isArray(parsed.content)) {
                     return (
                       <div key={index} className="space-y-2">
@@ -138,14 +133,11 @@ export default function ChatPage() {
                       </div>
                     );
                   }
-                  // If it's just a JSON object/array, prettify it
                   displayContent = JSON.stringify(parsed, null, 2);
                 } catch {
-                  // Keep as string if not JSON
                 }
               }
 
-              // Fallback for simple string or unparsed content
               return <div key={index} className="whitespace-pre-wrap">{typeof displayContent === 'string' ? displayContent : JSON.stringify(displayContent)}</div>;
             }
             return null;
@@ -161,8 +153,6 @@ export default function ChatPage() {
     <div className="flex flex-col h-screen">
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((m, i) => {
-          // If content is just tool usage and we are hiding it, we might render empty bubbles.
-          // We need to check if there's any renderable content.
           let hasRenderableContent = false;
           let isToolResult = false;
 
@@ -171,13 +161,11 @@ export default function ChatPage() {
             hasRenderableContent = m.content.some(block =>
               block.type === 'text' || block.type === 'tool_result'
             );
-            // Check if this is a tool result message to adjust alignment
             isToolResult = m.content.some(block => block.type === 'tool_result');
           }
 
           if (!hasRenderableContent) return null;
 
-          // If it's a tool result, align left (like assistant), otherwise align based on role
           const alignmentClass = (m.role === 'user' && !isToolResult) ? 'text-right' : 'text-left';
 
           return (

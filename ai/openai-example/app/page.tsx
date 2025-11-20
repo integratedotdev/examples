@@ -66,10 +66,8 @@ export default function ChatPage() {
 
   function formatFunctionOutput(output: unknown): string {
     try {
-      // Parse if it's a string
       const data = typeof output === "string" ? JSON.parse(output) : output;
 
-      // Check for structured content with repositories
       if (data.structuredContent?.repositories) {
         let displayText = "\n\n📦 **GitHub Repositories:**\n\n";
         for (const repo of data.structuredContent.repositories) {
@@ -83,12 +81,10 @@ export default function ChatPage() {
         return displayText;
       }
 
-      // Check for content array
       if (data.content && Array.isArray(data.content)) {
         let text = "";
         for (const item of data.content) {
           if (item.type === "text" && item.text) {
-            // Try to parse the text as JSON if it looks like JSON
             try {
               const parsed = JSON.parse(item.text);
               if (parsed.repositories) {
@@ -113,7 +109,6 @@ export default function ChatPage() {
         return text;
       }
 
-      // Fallback to stringifying the data
       return JSON.stringify(data, null, 2);
     } catch (e) {
       console.error("Error formatting function output:", e);
@@ -145,18 +140,14 @@ export default function ChatPage() {
 
       const result = await response.json();
 
-      // Build the assistant's response from the output
       let assistantContent = "";
 
-      // Handle if result is an array directly
       const outputArray = Array.isArray(result) ? result : result.output;
 
       if (outputArray && Array.isArray(outputArray)) {
         for (const item of outputArray) {
           if (item.type === "message" && item.content) {
-            // Extract text from message content
             for (const content of item.content) {
-              // Handle both "text" and "output_text" content types
               if (content.type === "text" || content.type === "output_text") {
                 assistantContent += content.text + "\n";
               }
@@ -164,13 +155,11 @@ export default function ChatPage() {
           } else if (item.type === "function_call") {
             assistantContent += `🔧 Called function: ${item.name}\n`;
           } else if (item.type === "function_call_output") {
-            // Format the function output nicely
             assistantContent += formatFunctionOutput(item.output);
           }
         }
       }
 
-      // If no content was found, show the raw result
       if (!assistantContent.trim()) {
         assistantContent = "Response received but no displayable content found.";
       }
