@@ -16,24 +16,35 @@ export default function Home() {
   const [loadingRepos, setLoadingRepos] = useState(false);
   const [reposError, setReposError] = useState<string | null>(null);
 
-  async function updateButtonStates() {
+  async function updateButtonStates(context = "unknown") {
     try {
+      console.log(`[isAuthorized] Checking authorization status (context: ${context})...`);
       const authorized = await client.isAuthorized("github");
+      console.log(`[isAuthorized] Result: ${authorized} (context: ${context})`);
       setGithubAuthorized(authorized);
     } catch (error) {
-      console.error("Error checking authorization:", error);
+      console.error(`[isAuthorized] Error checking authorization (context: ${context}):`, error);
     }
   }
 
   async function handleGithubClick() {
     try {
       if (githubAuthorized) {
+        console.log("[handleGithubClick] Disconnecting GitHub...");
         await client.disconnectProvider("github");
+        console.log("[handleGithubClick] Disconnected, checking authorization status...");
+        // Update state after disconnect
+        await updateButtonStates("after-disconnect");
       } else {
+        console.log("[handleGithubClick] Starting GitHub authorization...");
+        // Note: authorize() will redirect to GitHub, so code after this won't execute
+        // The useEffect will handle checking authorization when user returns
         await client.authorize("github");
+        // This won't execute due to redirect, but kept for clarity
+        console.log("[handleGithubClick] Authorization initiated (redirect happened)");
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("[handleGithubClick] Error:", error);
     }
   }
 
@@ -83,30 +94,29 @@ export default function Home() {
   }
 
   useEffect(() => {
-    // Setup event listeners for automatic state updates
-    const handleAuthComplete = () => {
-      updateButtonStates();
-    };
-
-    const handleAuthError = ({ error }: { provider: string; error: Error }) => {
-      console.error("Auth error:", error);
-    };
-
-    const handleAuthDisconnect = () => {
-      updateButtonStates();
-    };
-
-    client.on("auth:complete", handleAuthComplete);
-    client.on("auth:error", handleAuthError);
-    client.on("auth:disconnect", handleAuthDisconnect);
-
     // Initial auth check
-    updateButtonStates();
+    // client.isAuthorized() automatically waits for any pending OAuth callbacks
+    console.log("[useEffect] Component mounted, checking initial authorization status...");
+    updateButtonStates("initial-mount");
+
+    // Also check when window gains focus (user returns from OAuth redirect)
+    const handleFocus = () => {
+      console.log("[useEffect] Window focused, checking authorization status...");
+      updateButtonStates("window-focus");
+    };
+
+    window.addEventListener("focus", handleFocus);
+
+    // Check authorization status after a short delay on mount
+    // This helps catch the state change after OAuth callback completes
+    const timeout = setTimeout(() => {
+      console.log("[useEffect] Delayed check after mount, checking authorization status...");
+      updateButtonStates("delayed-mount-check");
+    }, 500); // Check after 500ms
 
     return () => {
-      client.off("auth:complete", handleAuthComplete);
-      client.off("auth:error", handleAuthError);
-      client.off("auth:disconnect", handleAuthDisconnect);
+      window.removeEventListener("focus", handleFocus);
+      clearTimeout(timeout);
     };
   }, []);
 
