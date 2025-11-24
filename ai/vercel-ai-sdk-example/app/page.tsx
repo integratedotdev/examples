@@ -13,50 +13,40 @@ export default function ChatPage() {
 
   const isLoading = status === 'streaming';
 
-  async function updateButtonStates() {
+  async function updateButtonStates(context = "unknown") {
     try {
-      const authorized = await client.isAuthorized('github');
+      const authorized = await client.isAuthorized("github");
       setGithubAuthorized(authorized);
     } catch (error) {
-      console.error('Error checking authorization:', error);
+      console.error(`[updateButtonStates] Error checking authorization (context: ${context}):`, error);
     }
   }
 
   async function handleGithubClick() {
-    try {
-      if (githubAuthorized) {
-        await client.disconnectProvider('github');
-      } else {
-        await client.authorize('github');
-      }
-    } catch (error) {
-      console.error('Error:', error);
+    if (githubAuthorized) {
+      await client.disconnectProvider("github");
+      await updateButtonStates("after-disconnect");
+    } else {
+      await client.authorize("github");
     }
   }
 
   useEffect(() => {
-    const handleAuthComplete = () => {
-      updateButtonStates();
+    updateButtonStates("initial-mount");
+
+    const handleFocus = () => {
+      updateButtonStates("window-focus");
     };
 
-    const handleAuthError = ({ error }: { provider: string; error: Error }) => {
-      console.error('Auth error:', error);
-    };
+    window.addEventListener("focus", handleFocus);
 
-    const handleAuthDisconnect = () => {
-      updateButtonStates();
-    };
-
-    client.on('auth:complete', handleAuthComplete);
-    client.on('auth:error', handleAuthError);
-    client.on('auth:disconnect', handleAuthDisconnect);
-
-    queueMicrotask(() => void updateButtonStates());
+    const timeout = setTimeout(() => {
+      updateButtonStates("delayed-mount-check");
+    }, 500);
 
     return () => {
-      client.off('auth:complete', handleAuthComplete);
-      client.off('auth:error', handleAuthError);
-      client.off('auth:disconnect', handleAuthDisconnect);
+      window.removeEventListener("focus", handleFocus);
+      clearTimeout(timeout);
     };
   }, []);
 
