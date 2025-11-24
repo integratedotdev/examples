@@ -9,7 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "integrate-sdk": "^0.7.40",
+    "integrate-sdk": "^0.8.20",
     "next": "16.0.3",
     "openai": "^6.9.0",
     "react": "19.2.0",
