@@ -17,7 +17,7 @@ export const { client: serverClient } = createMCPServer({
 });
 
 await app.register(cors, {
-    origin: "http://localhost:3000",
+    origin: process.env.FRONTEND_URL || "http://localhost:3000",
     credentials: true,
 });
 
@@ -57,6 +57,6 @@ app.route({
     }
 });
 
-app.listen({ port: 8080 }, () => {
-    console.log("Server running on port 8080");
+app.listen({ port: Number(process.env.PORT) || 8080 }, () => {
+    console.log(`Server running on port ${process.env.PORT || 8080}`);
 });
