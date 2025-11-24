@@ -8,6 +8,7 @@ import cors from "cors";
 const app = express();
 
 export const { client: serverClient } = createMCPServer({
+    apiKey: process.env.INTEGRATE_API_KEY,
     integrations: [
         githubIntegration({
             scopes: ["repo", "user"],

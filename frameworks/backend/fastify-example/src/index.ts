@@ -8,6 +8,7 @@ import {
 const app = Fastify();
 
 export const { client: serverClient } = createMCPServer({
+    apiKey: process.env.INTEGRATE_API_KEY,
     integrations: [
         githubIntegration({
             scopes: ["repo", "user"],
