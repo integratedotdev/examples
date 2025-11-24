@@ -19,12 +19,12 @@ for dir in "${DIRS[@]}"; do
   fi
 
   echo "📁 Processing $BASE_DIR/$dir..."
-  
+
   for example_dir in "$BASE_DIR/$dir"/*; do
     if [ -d "$example_dir" ]; then
       example_name=$(basename "$example_dir")
       echo "  🔄 Updating $example_name..."
-      
+
       if [ -f "$example_dir/package.json" ]; then
         (cd "$example_dir" && bun add integrate-sdk@latest)
         echo "  ✅ Updated $example_name"
@@ -33,19 +33,19 @@ for dir in "${DIRS[@]}"; do
       fi
     fi
   done
-  
+
   echo ""
 done
 
 # Process ai directory
 if [ -d "ai" ]; then
   echo "📁 Processing ai..."
-  
+
   for example_dir in "ai"/*; do
     if [ -d "$example_dir" ]; then
       example_name=$(basename "$example_dir")
       echo "  🔄 Updating $example_name..."
-      
+
       if [ -f "$example_dir/package.json" ]; then
         (cd "$example_dir" && bun add integrate-sdk@latest)
         echo "  ✅ Updated $example_name"
@@ -54,7 +54,7 @@ if [ -d "ai" ]; then
       fi
     fi
   done
-  
+
   echo ""
 fi
 
