@@ -18,12 +18,12 @@ export function App(props: {
   const [loadingRepos, setLoadingRepos] = useState(false)
   const [reposError, setReposError] = useState<string | null>(null)
 
-  async function updateButtonStates() {
+  async function updateButtonStates(context = 'unknown') {
     try {
       const authorized = await mcpClient.isAuthorized('github')
       setGithubAuthorized(authorized)
     } catch (error) {
-      console.error('Error checking authorization:', error)
+      console.error(`[updateButtonStates] Error checking authorization (context: ${context}):`, error)
     }
   }
 
@@ -31,6 +31,7 @@ export function App(props: {
     try {
       if (githubAuthorized) {
         await mcpClient.disconnectProvider('github')
+        await updateButtonStates('after-disconnect')
       } else {
         await mcpClient.authorize('github')
       }
@@ -89,30 +90,16 @@ export function App(props: {
   }
 
   useEffect(() => {
-    // Setup event listeners for automatic state updates
-    const handleAuthComplete = () => {
-      updateButtonStates()
-    }
-
-    const handleAuthError = ({ error }: { provider: string; error: Error }) => {
-      console.error('Auth error:', error)
-    }
-
-    const handleAuthDisconnect = () => {
-      updateButtonStates()
-    }
-
-    mcpClient.on('auth:complete', handleAuthComplete)
-    mcpClient.on('auth:error', handleAuthError)
-    mcpClient.on('auth:disconnect', handleAuthDisconnect)
-
     // Initial auth check
-    updateButtonStates()
+    updateButtonStates('initial-mount')
+
+    // Delayed check after mount
+    const timeout = setTimeout(() => {
+      updateButtonStates('delayed-mount-check')
+    }, 500)
 
     return () => {
-      mcpClient.off('auth:complete', handleAuthComplete)
-      mcpClient.off('auth:error', handleAuthError)
-      mcpClient.off('auth:disconnect', handleAuthDisconnect)
+      clearTimeout(timeout)
     }
   }, [])
 

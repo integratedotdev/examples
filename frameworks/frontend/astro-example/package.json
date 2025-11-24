@@ -10,6 +10,6 @@
   },
   "dependencies": {
     "astro": "^5.15.7",
-    "integrate-sdk": "^0.7.36"
+    "integrate-sdk": "^0.8.20"
   }
 }

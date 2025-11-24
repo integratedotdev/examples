@@ -20,7 +20,7 @@ import Layout from "../layouts/Layout.astro";
 <script>
   import { client } from "integrate-sdk";
 
-  async function updateButtonState(btn: HTMLButtonElement, provider: string) {
+  async function updateButtonState(btn: HTMLButtonElement, provider: string, context = "unknown") {
     try {
       const authorized = await client.isAuthorized(provider);
       btn.dataset.authorized = authorized.toString();
@@ -36,9 +36,11 @@ import Layout from "../layouts/Layout.astro";
         }
       }
     } catch (error) {
-      console.error(`Error checking ${provider} authorization:`, error);
+      console.error(`[updateButtonState] Error checking ${provider} authorization (context: ${context}):`, error);
     }
   }
+
+  let cleanup: (() => void) | null = null;
 
   async function setupButtons() {
     const githubBtn = document.getElementById("github-btn");
@@ -48,25 +50,31 @@ import Layout from "../layouts/Layout.astro";
       return;
     }
 
-    // Setup event listeners for automatic state updates
-    const handleAuthComplete = () => {
-      updateButtonState(githubBtn as HTMLButtonElement, "github");
-    };
-
-    const handleAuthError = ({ error }: { provider: string; error: Error }) => {
-      console.error("Auth error:", error);
-    };
-
-    const handleAuthDisconnect = () => {
-      updateButtonState(githubBtn as HTMLButtonElement, "github");
-    };
-
-    client.on("auth:complete", handleAuthComplete);
-    client.on("auth:error", handleAuthError);
-    client.on("auth:disconnect", handleAuthDisconnect);
+    // Cleanup previous setup if exists
+    if (cleanup) {
+      cleanup();
+    }
 
     // Update button states based on authorization
-    await updateButtonState(githubBtn as HTMLButtonElement, "github");
+    await updateButtonState(githubBtn as HTMLButtonElement, "github", "initial-mount");
+
+    // Setup window focus handler for OAuth callback
+    const handleFocus = () => {
+      updateButtonState(githubBtn as HTMLButtonElement, "github", "window-focus");
+    };
+
+    window.addEventListener("focus", handleFocus);
+
+    // Delayed check after mount
+    const timeout = setTimeout(() => {
+      updateButtonState(githubBtn as HTMLButtonElement, "github", "delayed-mount-check");
+    }, 500);
+
+    // Store cleanup function
+    cleanup = () => {
+      window.removeEventListener("focus", handleFocus);
+      clearTimeout(timeout);
+    };
 
     // Setup list repos button
     const listReposBtn = document.getElementById(
@@ -149,10 +157,10 @@ import Layout from "../layouts/Layout.astro";
         const authorized = githubBtn.dataset.authorized === "true";
         if (authorized) {
           await client.disconnectProvider("github");
+          await updateButtonState(githubBtn as HTMLButtonElement, "github", "after-disconnect");
         } else {
           await client.authorize("github");
         }
-        // Event listeners will automatically update button state
       } catch (error) {
         console.error("Error:", error);
       }

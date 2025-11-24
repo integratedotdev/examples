@@ -5,7 +5,7 @@
       "name": "hono-example",
       "dependencies": {
         "hono": "^4.10.6",
-        "integrate-sdk": "^0.8.15",
+        "integrate-sdk": "^0.8.20",
       },
       "devDependencies": {
         "@types/bun": "latest",
@@ -21,7 +21,7 @@
 
     "hono": ["hono@4.10.6", "", {}, "sha512-BIdolzGpDO9MQ4nu3AUuDwHZZ+KViNm+EZ75Ae55eMXMqLVhDFqEMXxtUe9Qh8hjL+pIna/frs2j6Y2yD5Ua/g=="],
 
-    "integrate-sdk": ["integrate-sdk@0.8.15", "", { "dependencies": { "zod": "^3.23.8" }, "peerDependencies": { "@anthropic-ai/sdk": ">=0.20.0", "@google/genai": "", "ai": ">=4.0.0", "openai": ">=4.0.0", "react": ">=19.0.0", "typescript": ">=5.0.0" }, "optionalPeers": ["@anthropic-ai/sdk", "@google/genai", "ai", "openai", "react"] }, "sha512-P6+BbCVrDQzmAWESduH6c71Le+OTNCeZStWh8pQS4+l1xJG1Wae/1aPK//fwczWo4E5w4IBSfrajZUt93YfYTg=="],
+    "integrate-sdk": ["integrate-sdk@0.8.20", "", { "dependencies": { "zod": "^3.23.8" }, "peerDependencies": { "@anthropic-ai/sdk": ">=0.20.0", "@google/genai": "", "ai": ">=4.0.0", "openai": ">=4.0.0", "react": ">=19.0.0", "typescript": ">=5.0.0" }, "optionalPeers": ["@anthropic-ai/sdk", "@google/genai", "ai", "openai", "react"] }, "sha512-bFcZKYimD+CAT0FJ7QUShKKRGqiv5HjCu9SAlLcc2ngsqD4Sx8n5vm2CxIfryrEe+PlKOR1AP/cTLUGGERP0Zg=="],
 
     "typescript": ["typescript@5.9.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw=="],
 

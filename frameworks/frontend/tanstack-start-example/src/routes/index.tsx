@@ -17,12 +17,12 @@ function App() {
   const [loadingRepos, setLoadingRepos] = useState(false)
   const [reposError, setReposError] = useState<string | null>(null)
 
-  async function updateButtonStates() {
+  async function updateButtonStates(context = 'unknown') {
     try {
       const authorized = await client.isAuthorized('github')
       setGithubAuthorized(authorized)
     } catch (error) {
-      console.error('Error checking authorization:', error)
+      console.error(`[updateButtonStates] Error checking authorization (context: ${context}):`, error)
     }
   }
 
@@ -30,6 +30,7 @@ function App() {
     try {
       if (githubAuthorized) {
         await client.disconnectProvider('github')
+        await updateButtonStates('after-disconnect')
       } else {
         await client.authorize('github')
       }
@@ -84,30 +85,21 @@ function App() {
   }
 
   useEffect(() => {
-    // Setup event listeners for automatic state updates
-    const handleAuthComplete = () => {
-      updateButtonStates()
+    updateButtonStates('initial-mount')
+
+    const handleFocus = () => {
+      updateButtonStates('window-focus')
     }
 
-    const handleAuthError = ({ error }: { provider: string; error: Error }) => {
-      console.error('Auth error:', error)
-    }
+    window.addEventListener('focus', handleFocus)
 
-    const handleAuthDisconnect = () => {
-      updateButtonStates()
-    }
-
-    client.on('auth:complete', handleAuthComplete)
-    client.on('auth:error', handleAuthError)
-    client.on('auth:disconnect', handleAuthDisconnect)
-
-    // Initial auth check
-    updateButtonStates()
+    const timeout = setTimeout(() => {
+      updateButtonStates('delayed-mount-check')
+    }, 500)
 
     return () => {
-      client.off('auth:complete', handleAuthComplete)
-      client.off('auth:error', handleAuthError)
-      client.off('auth:disconnect', handleAuthDisconnect)
+      window.removeEventListener('focus', handleFocus)
+      clearTimeout(timeout)
     }
   }, [])
 
