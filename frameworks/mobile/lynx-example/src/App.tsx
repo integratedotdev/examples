@@ -1,7 +1,7 @@
 import { useEffect, useState } from '@lynx-js/react'
 
 import './App.css'
-import { mcpClient } from './lib/integrate'
+import { client } from './lib/integrate'
 
 interface Repo {
   name?: string;
@@ -20,7 +20,7 @@ export function App(props: {
 
   async function updateButtonStates(context = 'unknown') {
     try {
-      const authorized = await mcpClient.isAuthorized('github')
+      const authorized = await client.isAuthorized('github')
       setGithubAuthorized(authorized)
     } catch (error) {
       console.error(`[updateButtonStates] Error checking authorization (context: ${context}):`, error)
@@ -30,10 +30,10 @@ export function App(props: {
   async function handleGithubClick() {
     try {
       if (githubAuthorized) {
-        await mcpClient.disconnectProvider('github')
+        await client.disconnectProvider('github')
         await updateButtonStates('after-disconnect')
       } else {
-        await mcpClient.authorize('github')
+        await client.authorize('github')
       }
     } catch (error) {
       console.error('Error in handleGithubClick:', error)
@@ -46,7 +46,7 @@ export function App(props: {
     setRepos([])
 
     try {
-      const response = await mcpClient.github.listOwnRepos()
+      const response = await client.github.listOwnRepos()
 
       // Extract repos from MCPToolCallResponse
       let extractedRepos: Repo[] = []
