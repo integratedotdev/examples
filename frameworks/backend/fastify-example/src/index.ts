@@ -41,9 +41,13 @@ app.route({
 
             const response = await serverClient.handler(req);
 
-            reply.status(response.status);
-            response.headers.forEach((value, key) => reply.header(key, value));
-            reply.send(response.body ? await response.text() : null);
+            if (response) {
+                reply.status(response.status);
+                response.headers.forEach((value: string, key: string) => reply.header(key, value));
+                reply.send(response.body ? await response.text() : null);
+            } else {
+                reply.status(204).send();
+            }
         } catch (error) {
             reply.status(500).send({
                 error: "Internal integration error",
