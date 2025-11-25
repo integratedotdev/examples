@@ -4,7 +4,7 @@
     "": {
       "name": "sveltekit-example",
       "dependencies": {
-        "integrate-sdk": "^0.8.20",
+        "integrate-sdk": "^0.8.27",
       },
       "devDependencies": {
         "@sveltejs/adapter-auto": "^7.0.0",
@@ -170,7 +170,7 @@
 
     "fsevents": ["fsevents@2.3.3", "", { "os": "darwin" }, "sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw=="],
 
-    "integrate-sdk": ["integrate-sdk@0.8.20", "", { "dependencies": { "zod": "^3.23.8" }, "peerDependencies": { "@anthropic-ai/sdk": ">=0.20.0", "@google/genai": "", "ai": ">=4.0.0", "openai": ">=4.0.0", "react": ">=19.0.0", "typescript": ">=5.0.0" }, "optionalPeers": ["@anthropic-ai/sdk", "@google/genai", "ai", "openai", "react"] }, "sha512-bFcZKYimD+CAT0FJ7QUShKKRGqiv5HjCu9SAlLcc2ngsqD4Sx8n5vm2CxIfryrEe+PlKOR1AP/cTLUGGERP0Zg=="],
+    "integrate-sdk": ["integrate-sdk@0.8.27", "", { "dependencies": { "zod": "^3.23.8" }, "peerDependencies": { "@anthropic-ai/sdk": ">=0.20.0", "@google/genai": "", "ai": ">=4.0.0", "openai": ">=4.0.0", "react": ">=19.0.0", "typescript": ">=5.0.0" }, "optionalPeers": ["@anthropic-ai/sdk", "@google/genai", "ai", "openai", "react"] }, "sha512-9lzuHFRbtzn5BUV1rdEUHbtLbhCT+b2aWSevPqaSW0sz9CJSdaDtjAQn/yz6ip+iPkUcOIzoKdfCYb9CVygvsA=="],
 
     "is-reference": ["is-reference@3.0.3", "", { "dependencies": { "@types/estree": "^1.0.6" } }, "sha512-ixkJoqQvAP88E6wLydLGGqCJsrFUnqoH6HnaczB8XmDH1oaWU+xxdptvikTgaEhtZ53Ky6YXiBuUI2WXLMCwjw=="],
 

@@ -5,7 +5,7 @@
       "name": "astro-example",
       "dependencies": {
         "astro": "^5.15.7",
-        "integrate-sdk": "^0.8.20",
+        "integrate-sdk": "^0.8.27",
       },
     },
   },
@@ -374,7 +374,7 @@
 
     "import-meta-resolve": ["import-meta-resolve@4.2.0", "", {}, "sha512-Iqv2fzaTQN28s/FwZAoFq0ZSs/7hMAHJVX+w8PZl3cY19Pxk6jFFalxQoIfW2826i/fDLXv8IiEZRIT0lDuWcg=="],
 
-    "integrate-sdk": ["integrate-sdk@0.8.20", "", { "dependencies": { "zod": "^3.23.8" }, "peerDependencies": { "@anthropic-ai/sdk": ">=0.20.0", "@google/genai": "", "ai": ">=4.0.0", "openai": ">=4.0.0", "react": ">=19.0.0", "typescript": ">=5.0.0" }, "optionalPeers": ["@anthropic-ai/sdk", "@google/genai", "ai", "openai", "react"] }, "sha512-bFcZKYimD+CAT0FJ7QUShKKRGqiv5HjCu9SAlLcc2ngsqD4Sx8n5vm2CxIfryrEe+PlKOR1AP/cTLUGGERP0Zg=="],
+    "integrate-sdk": ["integrate-sdk@0.8.27", "", { "dependencies": { "zod": "^3.23.8" }, "peerDependencies": { "@anthropic-ai/sdk": ">=0.20.0", "@google/genai": "", "ai": ">=4.0.0", "openai": ">=4.0.0", "react": ">=19.0.0", "typescript": ">=5.0.0" }, "optionalPeers": ["@anthropic-ai/sdk", "@google/genai", "ai", "openai", "react"] }, "sha512-9lzuHFRbtzn5BUV1rdEUHbtLbhCT+b2aWSevPqaSW0sz9CJSdaDtjAQn/yz6ip+iPkUcOIzoKdfCYb9CVygvsA=="],
 
     "iron-webcrypto": ["iron-webcrypto@1.2.1", "", {}, "sha512-feOM6FaSr6rEABp/eDfVseKyTMDt+KGpeB35SkVn9Tyn0CqvVsY3EwI0v5i8nMHyJnzCIQf7nsy3p41TPkJZhg=="],
 

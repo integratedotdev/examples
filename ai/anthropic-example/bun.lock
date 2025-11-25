@@ -5,7 +5,7 @@
       "name": "ai-template",
       "dependencies": {
         "@anthropic-ai/sdk": "^0.70.0",
-        "integrate-sdk": "^0.8.20",
+        "integrate-sdk": "^0.8.27",
         "next": "16.0.3",
         "react": "19.2.0",
         "react-dom": "19.2.0",
@@ -798,7 +798,7 @@
 
     "inline-style-parser": ["inline-style-parser@0.2.7", "", {}, "sha512-Nb2ctOyNR8DqQoR0OwRG95uNWIC0C1lCgf5Naz5H6Ji72KZ8OcFZLz2P5sNgwlyoJ8Yif11oMuYs5pBQa86csA=="],
 
-    "integrate-sdk": ["integrate-sdk@0.8.20", "", { "dependencies": { "zod": "^3.23.8" }, "peerDependencies": { "@anthropic-ai/sdk": ">=0.20.0", "@google/genai": "", "ai": ">=4.0.0", "openai": ">=4.0.0", "react": ">=19.0.0", "typescript": ">=5.0.0" }, "optionalPeers": ["@anthropic-ai/sdk", "@google/genai", "ai", "openai", "react"] }, "sha512-bFcZKYimD+CAT0FJ7QUShKKRGqiv5HjCu9SAlLcc2ngsqD4Sx8n5vm2CxIfryrEe+PlKOR1AP/cTLUGGERP0Zg=="],
+    "integrate-sdk": ["integrate-sdk@0.8.27", "", { "dependencies": { "zod": "^3.23.8" }, "peerDependencies": { "@anthropic-ai/sdk": ">=0.20.0", "@google/genai": "", "ai": ">=4.0.0", "openai": ">=4.0.0", "react": ">=19.0.0", "typescript": ">=5.0.0" }, "optionalPeers": ["@anthropic-ai/sdk", "@google/genai", "ai", "openai", "react"] }, "sha512-9lzuHFRbtzn5BUV1rdEUHbtLbhCT+b2aWSevPqaSW0sz9CJSdaDtjAQn/yz6ip+iPkUcOIzoKdfCYb9CVygvsA=="],
 
     "internal-slot": ["internal-slot@1.1.0", "", { "dependencies": { "es-errors": "^1.3.0", "hasown": "^2.0.2", "side-channel": "^1.1.0" } }, "sha512-4gd7VpWNQNB4UKKCFFVcp1AVv+FMOgs9NKzjHKusc8jTMhd5eL1NqQqOpE0KzMds804/yHlglp3uxgluOqAPLw=="],
 

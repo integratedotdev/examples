@@ -10,6 +10,6 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "integrate-sdk": "^0.8.20"
+    "integrate-sdk": "^0.8.27"
   }
 }
